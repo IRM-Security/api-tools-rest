@@ -19,6 +19,7 @@ use stdClass;
 
 use function array_values;
 use function call_user_func_array;
+use function property_exists;
 
 class ResourceTest extends TestCase
 {
@@ -446,7 +447,7 @@ class ResourceTest extends TestCase
 
         call_user_func_array([$this->resource, $eventName], $args);
 
-        $this->assertObjectHasAttribute('event', $test);
+        $this->assertTrue(property_exists($test, 'event'));
         $e = $test->event;
 
         if ($idIsPresent) {
@@ -476,7 +477,7 @@ class ResourceTest extends TestCase
 
         call_user_func_array([$this->resource, $eventName], $args);
 
-        $this->assertObjectHasAttribute('event', $test);
+        $this->assertTrue(property_exists($test, 'event'));
         $e = $test->event;
 
         $this->assertInstanceOf(ResourceEvent::class, $e);
