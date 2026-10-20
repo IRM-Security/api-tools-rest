@@ -33,6 +33,7 @@ use ReflectionObject;
 use function call_user_func_array;
 use function json_decode;
 use function method_exists;
+use function property_exists;
 
 class ChildResourcesIntegrationTest extends TestCase
 {
@@ -323,19 +324,19 @@ class ChildResourcesIntegrationTest extends TestCase
 
         $json = $this->renderer->render($model);
         $test = json_decode($json);
-        $this->assertObjectHasAttribute('_links', $test);
-        $this->assertObjectHasAttribute('self', $test->_links);
-        $this->assertObjectHasAttribute('href', $test->_links->self);
+        $this->assertTrue(property_exists($test, '_links'));
+        $this->assertTrue(property_exists($test->_links, 'self'));
+        $this->assertTrue(property_exists($test->_links->self, 'href'));
         $this->assertEquals('http://localhost.localdomain/api/parent/anakin/child', $test->_links->self->href);
 
-        $this->assertObjectHasAttribute('_embedded', $test);
-        $this->assertObjectHasAttribute('children', $test->_embedded);
+        $this->assertTrue(property_exists($test, '_embedded'));
+        $this->assertTrue(property_exists($test->_embedded, 'children'));
         $this->assertIsArray($test->_embedded->children);
 
         foreach ($test->_embedded->children as $child) {
-            $this->assertObjectHasAttribute('_links', $child);
-            $this->assertObjectHasAttribute('self', $child->_links);
-            $this->assertObjectHasAttribute('href', $child->_links->self);
+            $this->assertTrue(property_exists($child, '_links'));
+            $this->assertTrue(property_exists($child->_links, 'self'));
+            $this->assertTrue(property_exists($child->_links->self, 'href'));
             $this->assertMatchesRegularExpression(
                 '#^http://localhost.localdomain/api/parent/anakin/child/[^/]+$#',
                 $child->_links->self->href
