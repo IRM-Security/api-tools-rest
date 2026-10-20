@@ -23,6 +23,9 @@ class RestParametersListenerTest extends TestCase
 {
     use RouteMatchFactoryTrait;
 
+    /** @var Request */
+    private $request;
+
     /** @var Resource */
     private $resource;
 
